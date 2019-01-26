@@ -3,12 +3,22 @@ package com.example.android.musicplayer.controller;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.android.musicplayer.R;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import model.Song;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,7 +33,12 @@ public class MusicListFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    private RecyclerView mAllSongsRecView;
+    private RecyclerView mArtistRecView;
+    private RecyclerView mPlayListRecView;
+    private TextView mAllSongsTxt;
+    private TextView mArtistTxt;
+    private TextView mPlayListTxt;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -38,15 +53,13 @@ public class MusicListFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment MusicListFragment.
      */
-    public static MusicListFragment newInstance(String param1, String param2) {
+    public static MusicListFragment newInstance() {
         MusicListFragment fragment = new MusicListFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+//        args.putString(ARG_PARAM1, param1);
+//        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -64,7 +77,19 @@ public class MusicListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_music_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_music_list, container, false);
+        mAllSongsRecView = view.findViewById(R.id.allsongs_recView);
+        mArtistRecView = view.findViewById(R.id.artist_recView);
+        mPlayListRecView = view.findViewById(R.id.playList_recView);
+        //----
+        mAllSongsTxt = view.findViewById(R.id.allsongs_txt);
+        mArtistTxt = view.findViewById(R.id.artist_txt);
+        mPlayListTxt = view.findViewById(R.id.playList_txt);
+
+        mAllSongsRecView.setLayoutManager(new LinearLayoutManager(getActivity(),
+                LinearLayoutManager.HORIZONTAL, false));
+        mAllSongsRecView.setAdapter(new AllSongsAdapter(new ArrayList<Song>(){}));
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -104,5 +129,43 @@ public class MusicListFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+    private class AllSongsHolder extends RecyclerView.ViewHolder{
+        private CardView mCardView;
+        private Song mSong;
+        public AllSongsHolder(@NonNull View itemView) {
+            super(itemView);
+            mCardView = itemView.findViewById(R.id.card_view);
+        }
+        public void bind(Song song){
+            mSong = song;
+            mCardView.setCardBackgroundColor(getResources().getColor(android.R.color.holo_red_dark));
+        }
+    }
+    private class AllSongsAdapter extends RecyclerView.Adapter<AllSongsHolder>{
+        private List<Song> mSongList = new ArrayList<>();
+
+        public AllSongsAdapter(List<Song> songList) {
+            mSongList = songList;
+        }
+
+        @NonNull
+        @Override
+        public AllSongsHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+            View view = LayoutInflater
+                    .from(getActivity()).inflate(R.layout.music_list_item,viewGroup, false);
+            return new AllSongsHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull AllSongsHolder allSongsHolder, int i) {
+            Song song = mSongList.get(i);
+            allSongsHolder.bind(song);
+        }
+
+        @Override
+        public int getItemCount() {
+            return mSongList.size();
+        }
     }
 }

@@ -15,9 +15,10 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_music_list);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-//        if(fragmentManager.findFragmentById(R.id.))
-        fragmentManager.beginTransaction()
-//                       .add()
-                       .commit();
+        if(fragmentManager.findFragmentById(R.id.fragment_container) == null) {
+            fragmentManager.beginTransaction()
+                    .add(R.id.fragment_container, getFragment())
+                    .commit();
+        }
     }
 }
