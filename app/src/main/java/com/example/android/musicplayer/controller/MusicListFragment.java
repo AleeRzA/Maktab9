@@ -11,14 +11,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.musicplayer.R;
+import com.example.android.musicplayer.model.Song;
+import com.example.android.musicplayer.repository.SongRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import model.Song;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,6 +43,7 @@ public class MusicListFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private List<Song> mSongLists;
 
     private OnFragmentInteractionListener mListener;
 
@@ -71,6 +73,8 @@ public class MusicListFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        SongRepository songRepository = new SongRepository(getActivity());
+        mSongLists = songRepository.getSongList();
     }
 
     @Override
@@ -88,7 +92,7 @@ public class MusicListFragment extends Fragment {
 
         mAllSongsRecView.setLayoutManager(new LinearLayoutManager(getActivity(),
                 LinearLayoutManager.HORIZONTAL, false));
-        mAllSongsRecView.setAdapter(new AllSongsAdapter(new ArrayList<Song>(){}));
+        mAllSongsRecView.setAdapter(new AllSongsAdapter(mSongLists));
         return view;
     }
 
@@ -132,18 +136,23 @@ public class MusicListFragment extends Fragment {
     }
     private class AllSongsHolder extends RecyclerView.ViewHolder{
         private CardView mCardView;
+        private ImageView mImageView;
+
         private Song mSong;
         public AllSongsHolder(@NonNull View itemView) {
             super(itemView);
             mCardView = itemView.findViewById(R.id.card_view);
+            mImageView = itemView.findViewById(R.id.thumbnail);
+
         }
         public void bind(Song song){
             mSong = song;
             mCardView.setCardBackgroundColor(getResources().getColor(android.R.color.holo_red_dark));
+            mImageView.setBackgroundColor(getResources().getColor(android.R.color.holo_red_dark));
         }
     }
     private class AllSongsAdapter extends RecyclerView.Adapter<AllSongsHolder>{
-        private List<Song> mSongList = new ArrayList<>();
+        private List<Song> mSongList;
 
         public AllSongsAdapter(List<Song> songList) {
             mSongList = songList;

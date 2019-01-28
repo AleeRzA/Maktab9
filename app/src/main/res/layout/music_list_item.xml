@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
         <android.support.v7.widget.CardView
@@ -27,10 +27,11 @@
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:clickable="true"
                     android:scaleType="fitXY"
-                    android:src="@drawable/music_notes_"/>
+                    android:src="@drawable/musical_note"/>
 
                 <TextView
                     android:id="@+id/title"
+                    android:tooltipText="AAA"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/thumbnail"
@@ -42,6 +43,7 @@
 
                 <TextView
                     android:id="@+id/count"
+                    android:tooltipText="A2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/title"
@@ -58,7 +60,7 @@
                     android:layout_below="@id/thumbnail"
                     android:layout_marginTop="@dimen/ic_album_overflow_margin_top"
                     android:scaleType="centerCrop"
-                    android:src="@android:drawable/arrow_up_float" />
+                    android:src="@drawable/three_dots_vertical" />
 
             </RelativeLayout>
 
