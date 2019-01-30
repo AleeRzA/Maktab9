@@ -31,6 +31,7 @@ public class SongCursorWrapper extends CursorWrapper {
         song.setAlbumName(albumName);
         song.setDuration(songDuration);
         song.setTrackNum(trackNumber);
+        song.setImgPath(filePathIndex);
 
         return song;
     }

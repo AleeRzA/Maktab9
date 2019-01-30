@@ -69,12 +69,13 @@ public class MusicListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        SongRepository songRepository = new SongRepository(getActivity());
-        mSongLists = songRepository.getSongList();
+
+        mSongLists = SongRepository.getInstance(getActivity()).getSongList();
     }
 
     @Override
@@ -85,14 +86,22 @@ public class MusicListFragment extends Fragment {
         mAllSongsRecView = view.findViewById(R.id.allsongs_recView);
         mArtistRecView = view.findViewById(R.id.artist_recView);
         mPlayListRecView = view.findViewById(R.id.playList_recView);
-        //----
+        //------------------------------
         mAllSongsTxt = view.findViewById(R.id.allsongs_txt);
         mArtistTxt = view.findViewById(R.id.artist_txt);
         mPlayListTxt = view.findViewById(R.id.playList_txt);
 
         mAllSongsRecView.setLayoutManager(new LinearLayoutManager(getActivity(),
                 LinearLayoutManager.HORIZONTAL, false));
-        mAllSongsRecView.setAdapter(new AllSongsAdapter(mSongLists));
+        mAllSongsRecView.setAdapter(new viewAdapter(mSongLists));
+        //------------------------------
+        mArtistRecView.setLayoutManager(new LinearLayoutManager(getActivity(),
+                LinearLayoutManager.HORIZONTAL, false));
+        mArtistRecView.setAdapter(new viewAdapter(mSongLists));
+        //------------------------------
+        mPlayListRecView.setLayoutManager(new LinearLayoutManager(getActivity(),
+                LinearLayoutManager.HORIZONTAL, false));
+        mPlayListRecView.setAdapter(new viewAdapter(mSongLists));
         return view;
     }
 
@@ -112,6 +121,7 @@ public class MusicListFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+        mListener = (OnFragmentInteractionListener) context;
     }
 
     @Override
@@ -134,12 +144,12 @@ public class MusicListFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-    private class AllSongsHolder extends RecyclerView.ViewHolder{
+    private class viewHolder extends RecyclerView.ViewHolder{
         private CardView mCardView;
         private ImageView mImageView;
 
         private Song mSong;
-        public AllSongsHolder(@NonNull View itemView) {
+        public viewHolder(@NonNull View itemView) {
             super(itemView);
             mCardView = itemView.findViewById(R.id.card_view);
             mImageView = itemView.findViewById(R.id.thumbnail);
@@ -147,34 +157,44 @@ public class MusicListFragment extends Fragment {
         }
         public void bind(Song song){
             mSong = song;
-            mCardView.setCardBackgroundColor(getResources().getColor(android.R.color.holo_red_dark));
-            mImageView.setBackgroundColor(getResources().getColor(android.R.color.holo_red_dark));
+            mCardView.setCardBackgroundColor(getResources().getColor(android.R.color.background_light));
+
         }
     }
-    private class AllSongsAdapter extends RecyclerView.Adapter<AllSongsHolder>{
+    private class viewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         private List<Song> mSongList;
 
-        public AllSongsAdapter(List<Song> songList) {
+        public viewAdapter(List<Song> songList) {
             mSongList = songList;
         }
 
         @NonNull
         @Override
-        public AllSongsHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        public viewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
             View view = LayoutInflater
                     .from(getActivity()).inflate(R.layout.music_list_item,viewGroup, false);
-            return new AllSongsHolder(view);
+            return new viewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull AllSongsHolder allSongsHolder, int i) {
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
             Song song = mSongList.get(i);
-            allSongsHolder.bind(song);
+            ((MusicListFragment.viewHolder)viewHolder).bind(song);
         }
+
 
         @Override
         public int getItemCount() {
             return mSongList.size();
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            switch (position){
+                case R.id.allsongs_recView:
+
+            }
+            return super.getItemViewType(position);
         }
     }
 }

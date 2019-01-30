@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto">
         <android.support.v7.widget.CardView
             android:id="@+id/card_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:elevation="3dp"
             card_view:cardCornerRadius="0dp">
@@ -22,16 +20,17 @@
 
                 <ImageView
                     android:id="@+id/thumbnail"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="160dp"
+                    android:padding="8dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:clickable="true"
-                    android:scaleType="fitXY"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/musical_note"/>
 
                 <TextView
                     android:id="@+id/title"
-                    android:tooltipText="AAA"
+                    android:text="Alllll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/thumbnail"
@@ -43,7 +42,7 @@
 
                 <TextView
                     android:id="@+id/count"
-                    android:tooltipText="A2"
+                    android:text="A2lllll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/title"
@@ -65,6 +64,6 @@
             </RelativeLayout>
 
         </android.support.v7.widget.CardView>
+    </LinearLayout>
 
-</LinearLayout>
 

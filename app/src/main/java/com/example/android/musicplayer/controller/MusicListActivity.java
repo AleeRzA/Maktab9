@@ -5,7 +5,8 @@ import android.support.v4.app.Fragment;
 
 public class MusicListActivity
         extends SingleFragmentActivity
-        implements MusicListFragment.OnFragmentInteractionListener {
+        implements MusicListFragment.OnFragmentInteractionListener,
+                    PlaySongFragment.OnFragmentInteractionListener {
 
 
     @Override

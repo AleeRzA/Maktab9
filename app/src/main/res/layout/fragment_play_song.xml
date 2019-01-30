@@ -5,19 +5,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".controller.PlaySongFragment">
-<android.support.constraint.ConstraintLayout
+<LinearLayout
+    android:orientation="horizontal"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
     <ImageView
-        android:layout_width="190dp"
-        android:layout_height="138dp"
-        android:src="@drawable/play_btn"
-        tools:layout_editor_absoluteX="110dp"
-        tools:layout_editor_absoluteY="132dp" />
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:src="@drawable/backward_btn"/>
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</android.support.constraint.ConstraintLayout>
+        android:src="@drawable/pause_btn"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content" />
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:src="@drawable/play_btn"/>
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:src="@drawable/forward_btn"/>
+
+</LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>
