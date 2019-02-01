@@ -149,8 +149,8 @@ public class MusicListFragment extends Fragment {
         private ImageView mImageView;
         private TextView mTitle;
         private TextView mArtist;
-
         private Song mSong;
+
         public viewHolder(@NonNull View itemView) {
             super(itemView);
             mCardView = itemView.findViewById(R.id.card_view);
@@ -163,7 +163,7 @@ public class MusicListFragment extends Fragment {
                 public void onClick(View v) {
                     getFragmentManager().beginTransaction()
                             .replace(R.id.fragment_container
-                                    , PlaySongFragment.newInstance(mSong.getImgPath()))
+                                    , PlaySongFragment.newInstance(mSong.getImgPath(), mSong.getID()))
                             .addToBackStack(MusicListFragment.class.getName())
                             .commit();
                 }
