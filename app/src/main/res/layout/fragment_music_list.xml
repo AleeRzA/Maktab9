@@ -16,6 +16,7 @@
             android:layout_marginStart="8dp"
             android:text="All Songs"
             android:textSize="25sp"
+            android:textColor="#fff"
             app:layout_constraintBottom_toTopOf="@+id/allsongs_recView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -42,6 +43,7 @@
             android:layout_marginStart="8dp"
             android:text="Artists"
             android:textSize="25sp"
+            android:textColor="#fff"
             app:layout_constraintBottom_toTopOf="@+id/artist_recView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/allsongs_recView" />
@@ -68,6 +70,7 @@
             android:layout_marginStart="8dp"
             android:text="PlayLists"
             android:textSize="25sp"
+            android:textColor="#fff"
             app:layout_constraintBottom_toTopOf="@+id/playList_recView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/artist_recView" />

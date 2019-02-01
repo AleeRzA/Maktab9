@@ -1,14 +1,20 @@
 package com.example.android.musicplayer.controller;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.example.android.musicplayer.R;
+import com.example.android.musicplayer.repository.SongRepository;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,14 +27,29 @@ import com.example.android.musicplayer.R;
 public class PlaySongFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_IMG = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    private ImageView mImageView;
+    private TextView mStartTime;
+    private TextView mEndTime;
+    private SeekBar mSeekBar;
+    private String mImagePath;
+
+    private ImageButton mPlay;
+    private ImageButton mPause;
+    private ImageButton mStop;
+    private ImageButton mBackward;
+    private ImageButton mForward;
+    private ImageButton mRefresh;
+    private ImageButton mShuffle;
+
+
     // TODO: Rename and change types of parameters
-    private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private Bitmap mBitmap;
 
     public PlaySongFragment() {
         // Required empty public constructor
@@ -38,16 +59,14 @@ public class PlaySongFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment PlaySongFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static PlaySongFragment newInstance(String param1, String param2) {
+    public static PlaySongFragment newInstance(String imgPath) {
         PlaySongFragment fragment = new PlaySongFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(ARG_IMG, imgPath);
+//        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,16 +75,20 @@ public class PlaySongFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mImagePath = getArguments().getString(ARG_IMG);
+//            mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        mBitmap = SongRepository.getInstance(getActivity()).getAlbumImage(mImagePath);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_play_song, container, false);
+        View view = inflater.inflate(R.layout.fragment_play_song, container, false);
+        mImageView = view.findViewById(R.id.imageView_clipArt);
+        mImageView.setImageBitmap(mBitmap);
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

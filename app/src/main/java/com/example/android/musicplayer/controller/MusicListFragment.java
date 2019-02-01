@@ -122,7 +122,6 @@ public class MusicListFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
-        mListener = (OnFragmentInteractionListener) context;
     }
 
     @Override
@@ -159,6 +158,16 @@ public class MusicListFragment extends Fragment {
             mTitle = itemView.findViewById(R.id.song_title);
             mArtist = itemView.findViewById(R.id.song_artist);
 
+            mCardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container
+                                    , PlaySongFragment.newInstance(mSong.getImgPath()))
+                            .addToBackStack(MusicListFragment.class.getName())
+                            .commit();
+                }
+            });
         }
         public void bind(Song song){
             mSong = song;
