@@ -1,6 +1,7 @@
 package com.example.android.musicplayer.controller;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -161,7 +162,11 @@ public class MusicListFragment extends Fragment {
         }
         public void bind(Song song){
             mSong = song;
+            Bitmap bitmap = SongRepository.getInstance(getActivity()).getAlbumImage(song.getImgPath());
             mCardView.setCardBackgroundColor(getResources().getColor(android.R.color.background_light));
+            if(bitmap != null)
+            mImageView.setImageBitmap(bitmap);
+
             mTitle.setText(song.getTitle());
             mArtist.setText(song.getArtistName());
 

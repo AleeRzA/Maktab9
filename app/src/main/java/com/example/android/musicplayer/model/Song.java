@@ -7,7 +7,7 @@ public class Song {
     private String mArtistName;
     private String mAlbumName;
     private int mTrackNum;
-    private int mImgPath;
+    private String mImgPath;
 
     public Song(Long ID, String title) {
         mID = ID;
@@ -54,11 +54,11 @@ public class Song {
     public void setTrackNum(int trackNum) {
         mTrackNum = trackNum;
     }
-    public int getImgPath() {
+    public String getImgPath() {
         return mImgPath;
     }
 
-    public void setImgPath(int imgPath) {
+    public void setImgPath(String imgPath) {
         mImgPath = imgPath;
     }
 }

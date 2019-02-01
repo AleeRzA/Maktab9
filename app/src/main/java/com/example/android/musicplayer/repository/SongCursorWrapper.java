@@ -23,7 +23,7 @@ public class SongCursorWrapper extends CursorWrapper {
         int songDuration = getColumnIndex(MediaStore.Audio.Media.DURATION);
         Long idColumn =
                 (getLong(getColumnIndex(MediaStore.Audio.Media._ID)));
-        int filePathIndex = getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        String filePathIndex = getString(getColumnIndexOrThrow(MediaStore.Audio.Media.DATA));
         int trackNumber = getColumnIndex(MediaStore.Audio.Media.TRACK);
 
         Song song = new Song(idColumn, songTitle);
