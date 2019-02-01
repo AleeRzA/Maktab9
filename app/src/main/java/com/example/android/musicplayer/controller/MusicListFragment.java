@@ -147,17 +147,23 @@ public class MusicListFragment extends Fragment {
     private class viewHolder extends RecyclerView.ViewHolder{
         private CardView mCardView;
         private ImageView mImageView;
+        private TextView mTitle;
+        private TextView mArtist;
 
         private Song mSong;
         public viewHolder(@NonNull View itemView) {
             super(itemView);
             mCardView = itemView.findViewById(R.id.card_view);
             mImageView = itemView.findViewById(R.id.thumbnail);
+            mTitle = itemView.findViewById(R.id.song_title);
+            mArtist = itemView.findViewById(R.id.song_artist);
 
         }
         public void bind(Song song){
             mSong = song;
             mCardView.setCardBackgroundColor(getResources().getColor(android.R.color.background_light));
+            mTitle.setText(song.getTitle());
+            mArtist.setText(song.getArtistName());
 
         }
     }
