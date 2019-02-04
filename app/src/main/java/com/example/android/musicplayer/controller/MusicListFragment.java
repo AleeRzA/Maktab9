@@ -145,6 +145,7 @@ public class MusicListFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
     private class viewHolder extends RecyclerView.ViewHolder{
+        private View mView;
         private CardView mCardView;
         private ImageView mImageView;
         private TextView mTitle;
@@ -153,6 +154,7 @@ public class MusicListFragment extends Fragment {
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);
+            mView = itemView.findViewById(R.id.relativeCardview);
             mCardView = itemView.findViewById(R.id.card_view);
             mImageView = itemView.findViewById(R.id.thumbnail);
             mTitle = itemView.findViewById(R.id.song_title);

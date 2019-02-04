@@ -3,10 +3,10 @@ package com.example.android.musicplayer.controller;
 import android.content.ContentUris;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import com.example.android.musicplayer.R;
 import com.example.android.musicplayer.repository.SongRepository;
+
+import java.io.IOException;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -51,8 +53,10 @@ public class PlaySongFragment extends Fragment {
     private ImageButton mShuffle;
 
 
+
     private OnFragmentInteractionListener mListener;
     private Bitmap mBitmap;
+    private Uri contentUri;
 
     public PlaySongFragment() {
         // Required empty public constructor
@@ -83,13 +87,12 @@ public class PlaySongFragment extends Fragment {
         }
         mBitmap = SongRepository.getInstance(getActivity()).getAlbumImage(mImagePath);
 
-        Uri contentUri = ContentUris.withAppendedId(
-                android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, Long.valueOf(mImagePath));
-
+        contentUri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, mSongId);
         mMediaPlayer = new MediaPlayer();
-        mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+
+//        mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         try {
-            mMediaPlayer.setDataSource(getActivity(), contentUri);
+            prepareToPlay(contentUri);
         }catch (Exception e){
             e.getMessage();
         }
@@ -106,7 +109,8 @@ public class PlaySongFragment extends Fragment {
 
         mPlay = view.findViewById(R.id.playBtn_music);
         mPause = view.findViewById(R.id.pauseBtn_music);
-        mPause.setVisibility(View.GONE);
+        setVisibility(View.GONE, View.VISIBLE);
+
         mBackward = view.findViewById(R.id.backwardBtn_music);
         mForward = view.findViewById(R.id.forwardBtn_music);
         mStop = view.findViewById(R.id.stopBtn_music);
@@ -116,26 +120,61 @@ public class PlaySongFragment extends Fragment {
         mPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mMediaPlayer.start();
+                if(!mMediaPlayer.isPlaying()){
+                    setVisibility(View.GONE, View.VISIBLE);
+                    try {
+                        prepareToPlay(contentUri);
+                    } catch (Exception e){
+                        e.getMessage();
+                    }
+                } else {
+                    mMediaPlayer.start();
+                }
                 Toast.makeText(getActivity(), "Play Button", Toast.LENGTH_SHORT).show();
-                mPlay.setVisibility(View.GONE);
-                mPause.setVisibility(View.VISIBLE);
             }
         });
         mPause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mMediaPlayer.pause();
+                if(mMediaPlayer.isPlaying()) {
+                    mMediaPlayer.pause();
+                    setVisibility(View.VISIBLE, View.GONE);
+                }
+                Toast.makeText(getActivity(), "pause clicked", Toast.LENGTH_SHORT).show();
 
             }
         });
         mStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mMediaPlayer.stop();
+                if(mMediaPlayer.isPlaying()) {
+                    mMediaPlayer.stop();
+                    mMediaPlayer.reset();
+                    setVisibility(View.VISIBLE, View.GONE);
+                }
+                Toast.makeText(getActivity(), "pause clicked", Toast.LENGTH_SHORT).show();
+
             }
         });
         return view;
+    }
+
+    private void prepareToPlay(Uri contentUri) throws IOException {
+        mMediaPlayer.setDataSource(getActivity(), contentUri);
+        mMediaPlayer.prepare();
+        mMediaPlayer.start();
+    }
+
+    private void setVisibility(int gone, int visible) {
+        mPlay.setVisibility(gone);
+        mPause.setVisibility(visible);
+    }
+    private void stopPlaying() {
+        if (mMediaPlayer != null) {
+            mMediaPlayer.stop();
+            mMediaPlayer.release();
+            mMediaPlayer = null;
+        }
     }
 
     public void onButtonPressed(Uri uri) {
